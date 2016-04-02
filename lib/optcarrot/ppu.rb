@@ -684,9 +684,13 @@ module Optcarrot
 
       # we first check phase 1 since it is the most-likely case
       if @sp_phase # nil represents phase 1
+#     if ! @sp_phase # nil represents phase 1	# unless
+#	return evaluate_sprites_odd_phase_1
+#     else
         # the second most-likely case is phase 9
         if @sp_phase == 9
           evaluate_sprites_odd_phase_9
+#	  return evaluate_sprites_odd_phase_9
         else
           # other cases are relatively rare
           case @sp_phase
