@@ -16,6 +16,7 @@ module Optcarrot
         [0.70, 0.70, 0.70], # emphasize RGB
       ].flat_map do |rf, gf, bf|
         # RGB default palette (I don't know where this palette came from)
+#	# RGB default palette (YUV)
         [
           0x666666, 0x002a88, 0x1412a7, 0x3b00a4, 0x5c007e, 0x6e0040, 0x6c0600, 0x561d00,
           0x333500, 0x0b4800, 0x005200, 0x004f08, 0x00404d, 0x000000, 0x000000, 0x000000,
@@ -36,6 +37,7 @@ module Optcarrot
 
     # Nestopia generates a palette systematically (cool!), but it is not compatible with nes-tests-rom
     def nestopia_palette
+      pi = Math::PI
       (0..511).map do |n|
         tint, level, color = n >> 6 & 7, n >> 4 & 3, n & 0x0f
         level0, level1 = [[-0.12, 0.40], [0.00, 0.68], [0.31, 1.00], [0.72, 1.00]][level]
@@ -45,6 +47,7 @@ module Optcarrot
         y = (level1 + level0) * 0.5
         s = (level1 - level0) * 0.5
         iq = Complex.polar(s, Math::PI / 6 * (color - 3))
+#	iq = Complex.polar(s, pi * 0.166667 * (color - 3))
         if tint != 0 && color <= 0x0d
           if tint == 7
             y = (y * 0.79399 - 0.0782838) * 1.13
@@ -53,10 +56,12 @@ module Optcarrot
             y -= level1 * 0.5
             y -= level1 *= 0.6 if [3, 5, 6].include?(tint)
             iq += Complex.polar(level1, Math::PI / 12 * ([0, 6, 10, 8, 2, 4, 0, 0][tint] * 2 - 7))
+#	    iq += Complex.polar(level1, pi * 0.083333 * ([0, 6, 10, 8, 2, 4, 0, 0][tint] * 2 - 7))
           end
         end
         [[105, 0.570], [251, 0.351], [15, 1.015]].map do |angle, gain|
           clr = y + (Complex.polar(gain * 2, (angle - 33) * Math::PI / 180) * iq.conjugate).real
+#	  clr = y + (Complex.polar(gain * 2, (angle - 33) * pi * 0.005556) * iq.conjugate).real
           [0, (clr * 255).round, 255].sort[1]
         end
       end
