@@ -506,6 +506,9 @@ module Optcarrot
         else
           @valid_freq = false
         end
+#	if @valid_freq = (@wave_length >= MIN_FREQ && @wave_length + (@sweep_increase & @wave_length >> @sweep_shift) <= MAX_FREQ)
+#	  @freq = ((@wave_length + 1) << 1) * @fixed	# @wave_length : int ?	# osoi ?
+#	end
         @active = active?
       end
 
