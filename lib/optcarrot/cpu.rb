@@ -974,8 +974,9 @@ module Optcarrot
 #	if flg && [:r_op, :w_op, :rw_op].include?(args[0])
 #	  kind || (kind, op, mode = args)
 #	  mode = ADDRESSING_MODES[mode][opcode >> 2 & 7]
-##	  send_args<< (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op		# p
-#	  send_args[3] = (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op	# >= 1.9 ?
+#	  send_args[2] = mode
+#	  send_args<< (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op		# p
+##	  send_args[3] = (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op	# >= 1.9 ?
 #	end
 #	DISPATCH[opcode] = [*send_args]
 #     end
