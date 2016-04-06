@@ -977,8 +977,7 @@ module Optcarrot
 #     opcodes.each do |opcode|
 #	send_args = args # .dup # args[0 .. 2]
 #	if flg && [:r_op, :w_op, :rw_op].include?(args[0])
-#	  kind || (kind, op, mode = args)
-#	  mode = ADDRESSING_MODES[mode][opcode >> 2 & 7]
+#	  kind || (kind, op, mode = args; mode = ADDRESSING_MODES[mode][opcode >> 2 & 7])
 #	  send_args[2] = mode
 #	  send_args<< (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op		# p
 ##	  send_args[3] = (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op	# >= 1.9 ?
