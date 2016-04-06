@@ -310,6 +310,11 @@ module Optcarrot
 
     def pull16
       pull8 + 256 * pull8
+#     pull8 | (pull8 << 8)	# osoi ?
+#     pull8 + (pull8 << 8)	# osoi ?
+#     pull8 | pull8 * 256
+#     pull8 + pull8 * 256
+#     pull8 | 256 * pull8
     end
 
     ###########################################################################
