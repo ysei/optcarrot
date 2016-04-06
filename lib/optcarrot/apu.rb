@@ -568,6 +568,8 @@ module Optcarrot
             begin
               v = -@timer
               v = @freq if v > @freq
+#	      v = v <= @freq ? -@timer : @freq
+#	      v = v > @freq ? @freq : -@timer 
               sum += v >> @form[@step = (@step + 1) & 7]
               @timer += @freq
             end while @timer < 0
@@ -654,6 +656,8 @@ module Optcarrot
             begin
               v = -@timer
               v = @freq if v > @freq
+#	      v = v <= @freq ? -@timer : @freq
+#	      v = v > @freq ? @freq : -@timer 
               sum += v * WAVE_FORM[@step = (@step + 1) & 0x1f]
               @timer += @freq
             end while @timer < 0
@@ -713,6 +717,8 @@ module Optcarrot
             if @bits.even?
               v = -@timer
               v = @freq if v > @freq
+#	      v = v <= @freq ? -@timer : @freq
+#	      v = v > @freq ? @freq : -@timer 
               sum += v
             end
             @timer += @freq
