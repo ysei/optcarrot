@@ -929,11 +929,13 @@ module Optcarrot
 
     def run
       do_clock
+#     flg = @conf.loglevel >= 3
       begin
         begin
           @opcode = fetch(@_pc)
 
           if @conf.loglevel >= 3
+#	  if flg
             @conf.debug("PC:%04X A:%02X X:%02X Y:%02X P:%02X SP:%02X CYC:%3d : OPCODE:%02X (%d, %d)" % [
               @_pc, @_a, @_x, @_y, flags_pack, @_sp, @clk / 4 % 341, @opcode, @clk, @clk_target
             ])
