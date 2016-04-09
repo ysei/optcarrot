@@ -715,6 +715,7 @@ module Optcarrot
           begin
             @bits = @shifter[@bits]
             if @bits.even?
+#	    if (@bits = @shifter[@bits]).even?
               v = -@timer
               v = @freq if v > @freq
 #	      v = v <= @freq ? -@timer : @freq
