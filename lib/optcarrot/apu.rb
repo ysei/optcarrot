@@ -155,7 +155,7 @@ module Optcarrot
       delta = @frame_counter != elapsed * @fixed_clock
       update(elapsed + 1)
       delta
-#     [@frame_counter != elapsed * @fixed_clock][update(elapsed + 1)][0]
+#     [@frame_counter != elapsed * @fixed_clock, update(elapsed + 1)][0]
 #     @frame_counter != elapsed * @fixed_clock
 #   ensure
 #     update(elapsed + 1)
