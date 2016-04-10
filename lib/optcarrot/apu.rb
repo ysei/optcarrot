@@ -572,8 +572,14 @@ module Optcarrot
             begin
               v = -@timer
               v = @freq if v > @freq
-#	      v = v <= @freq ? -@timer : @freq
-#	      v = v > @freq ? @freq : -@timer 
+#	      v = @freq if (v = -@timer) > @freq
+#	      v = -@timer <= @freq ? -@timer : @freq
+#	      v = -@timer > @freq ? @freq : -@timer
+#	      v = @timer < @freq ? @freq : -@timer
+#	      v = @freq > @timer ? @freq : -@timer
+#	      v = @timer >= @freq ? -@timer : @freq
+#	      v = @freq <= @timer ? -@timer : @freq
+#	      v = [-@timer, @freq][(@freq - @timer <=> 0) + 1 >> 1]
               sum += v >> @form[@step = (@step + 1) & 7]
               @timer += @freq
             end while @timer < 0
@@ -660,8 +666,10 @@ module Optcarrot
             begin
               v = -@timer
               v = @freq if v > @freq
-#	      v = v <= @freq ? -@timer : @freq
-#	      v = v > @freq ? @freq : -@timer 
+#	      v = @freq if (v = -@timer) > @freq
+#	      v = -@timer > @freq ? @freq : -@timer
+#	      v = @timer < @freq ? @freq : -@timer
+#	      v = [-@timer, @freq][(@freq - @timer <=> 0) + 1 >> 1]
               sum += v * WAVE_FORM[@step = (@step + 1) & 0x1f]
               @timer += @freq
             end while @timer < 0
@@ -722,8 +730,10 @@ module Optcarrot
 #	    if (@bits = @shifter[@bits]).even?
               v = -@timer
               v = @freq if v > @freq
-#	      v = v <= @freq ? -@timer : @freq
-#	      v = v > @freq ? @freq : -@timer 
+#	      v = @freq if (v = -@timer) > @freq
+#	      v = -@timer > @freq ? @freq : -@timer
+#	      v = @timer < @freq ? @freq : -@timer
+#	      v = [-@timer, @freq][(@freq - @timer <=> 0) + 1 >> 1]
               sum += v
             end
             @timer += @freq
