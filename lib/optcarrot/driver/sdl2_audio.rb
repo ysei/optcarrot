@@ -8,6 +8,7 @@ module Optcarrot
     def init
       SDL2.InitSubSystem(SDL2::INIT_AUDIO)
       @max_buff_size = @rate * @bits / 8 * BUFFER_IN_FRAME / NES::FPS
+#     @max_buff_size = (@rate * @bits >> 3) * BUFFER_IN_FRAME / NES::FPS	# seisuu ?
 
       # we need to prevent this callback object from GC
       @callback = SDL2.AudioCallback(method(:callback))
@@ -17,6 +18,7 @@ module Optcarrot
       desired[:format] = FORMAT[@bits]
       desired[:channels] = 1
       desired[:samples] = @rate / 60 * 2
+#     desired[:samples] = @rate / 30
       desired[:callback] = defined?(SDL2.QueueAudio) ? nil : @callback
       desired[:userdata] = nil
       obtained = SDL2::AudioSpec.new
