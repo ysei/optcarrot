@@ -945,10 +945,14 @@ module Optcarrot
 
           send(*DISPATCH[@opcode])
 
+#	  clk = @clk	# ?
           @ppu.sync(@clk) if @ppu_sync
+#	  @ppu.sync(clk) if @ppu_sync	# ?
         end while @clk < @clk_target
+#	end while clk < @clk_target	# ?
         do_clock
       end while @clk < @clk_frame
+#     end while clk < @clk_frame	# ?
     end
 
     ADDRESSING_MODES = {
