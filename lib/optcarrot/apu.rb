@@ -580,6 +580,7 @@ module Optcarrot
 #	      v = @timer >= @freq ? -@timer : @freq
 #	      v = @freq <= @timer ? -@timer : @freq
 #	      v = [-@timer, @freq][(@freq - @timer <=> 0) + 1 >> 1]
+#	      v = [-@timer, @freq][(@freq <=> @timer) + 1 >> 1]
               sum += v >> @form[@step = (@step + 1) & 7]
               @timer += @freq
             end while @timer < 0
