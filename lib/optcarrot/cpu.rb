@@ -206,12 +206,28 @@ module Optcarrot
       @irq_flags &= line ^ (IRQ_EXT | IRQ_FRAME | IRQ_DMC)
       @clk_irq = FOREVER_CLOCK if @irq_flags == 0
       old_irq_flags
+#     [
+#	@irq_flags & (IRQ_FRAME | IRQ_DMC),
+#	@irq_flags &= line ^ (IRQ_EXT | IRQ_FRAME | IRQ_DMC),
+#	@clk_irq = FOREVER_CLOCK if @irq_flags == 0
+#     ][0]
+#     @irq_flags & (IRQ_FRAME | IRQ_DMC)
+#   ensure
+#     @irq_flags &= line ^ (IRQ_EXT | IRQ_FRAME | IRQ_DMC)
+#     @clk_irq = FOREVER_CLOCK if @irq_flags == 0
     end
 
     def next_interrupt_clock(clk)
       clk += CLK_1 + CLK_1 / 2 # interrupt edge
+#     clk += CLK_1 + (CLK_1 >> 1) # interrupt edge
       @clk_target = clk if @clk_target > clk
       clk
+#     [
+#	clk += CLK_1 + (CLK_1 >> 1), # interrupt edge
+#	@clk_target = clk if @clk_target > clk
+#     ][0]
+#   ensure
+#     @clk_target = clk if @clk_target > clk
     end
 
     def do_irq(line, clk)
