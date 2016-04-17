@@ -597,6 +597,9 @@ module Optcarrot
             count = (-@timer + @freq - 1) / @freq
             @step = (@step + count) & 7
             @timer += count * @freq
+#	    count = (-@timer + @freq - 1)
+#	    @step = (@step + count / @freq) & 7
+#	    @timer += count
           end
           return 0 if @amp < CHANNEL_OUTPUT_DECAY
           @amp -= CHANNEL_OUTPUT_DECAY
