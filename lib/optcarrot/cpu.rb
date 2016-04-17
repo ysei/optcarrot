@@ -175,6 +175,10 @@ module Optcarrot
       dma_buffer = fetch(addr)
       @clk += CLK_1
       dma_buffer
+#     [fetch(addr), @clk += CLK_1][0]
+#     fetch(addr)
+#   ensure
+#     @clk += CLK_1
     end
 
     def sprite_dma(addr, sp_ram)
