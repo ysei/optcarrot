@@ -564,6 +564,7 @@ module Optcarrot
       end
 
       def sample
+#	freq = @freq
         sum = @timer
         @timer -= @rate
         if @active
@@ -573,21 +574,22 @@ module Optcarrot
 #	      sum += (
               v = -@timer
               v = @freq if v > @freq
-#	      v = @freq if (v = -@timer) > @freq
-#	      v = -@timer <= @freq ? -@timer : @freq
-#	      v = -@timer > @freq ? @freq : -@timer
-#	      v = @timer < @freq ? @freq : -@timer
-#	      v = @freq > @timer ? @freq : -@timer
-#	      v = @timer >= @freq ? -@timer : @freq
-#	      v = @freq <= @timer ? -@timer : @freq
-#	      v = [-@timer, @freq][(@freq - @timer <=> 0) + 1 >> 1]
-#	      v = [-@timer, @freq][(@freq <=> @timer) + 1 >> 1]
-#	      v = [-@timer, @freq][(@timer - @freq <=> 0) >> 1]
-#	      v = [-@timer, @freq][(@timer <=> @freq) >> 1]
+#	      v = freq if v > freq
+#	      v = freq if (v = -@timer) > freq
+#	      v = -@timer <= freq ? -@timer : freq
+#	      v = -@timer > freq ? freq : -@timer
+#	      v = @timer < freq ? freq : -@timer
+#	      v = freq > @timer ? freq : -@timer
+#	      v = @timer >= freq ? -@timer : freq
+#	      v = freq <= @timer ? -@timer : freq
+#	      v = [-@timer, freq][(freq - @timer <=> 0) + 1 >> 1]
+#	      v = [-@timer, freq][(freq <=> @timer) + 1 >> 1]
+#	      v = [-@timer, freq][(@timer - freq <=> 0) >> 1]
+#	      v = [-@timer, freq][(@timer <=> freq) >> 1]
               sum += v >> @form[@step = (@step + 1) & 7]
               @timer += @freq
             end while @timer < 0
-#	    end while (@timer += @freq) < 0
+#	    end while (@timer += freq) < 0
             @amp = (sum * @envelope.output + @rate / 2) / @rate
           else
             @amp = @envelope.output >> @form[@step]
@@ -595,10 +597,12 @@ module Optcarrot
         else
           if @timer < 0
             count = (-@timer + @freq - 1) / @freq
+#	    count = (-@timer + freq - 1) / freq
             @step = (@step + count) & 7
             @timer += count * @freq
-#	    count = (-@timer + @freq - 1)
-#	    @step = (@step + count / @freq) & 7
+#	    @timer += count * freq
+#	    count = (-@timer + freq - 1)
+#	    @step = (@step + count / freq) & 7
 #	    @timer += count
           end
           return 0 if @amp < CHANNEL_OUTPUT_DECAY
@@ -670,19 +674,21 @@ module Optcarrot
           sum = @timer
           @timer -= @rate
           if @timer < 0
+#	    freq = @freq
             sum *= WAVE_FORM[@step]
             begin
 #	      sum += (
               v = -@timer
               v = @freq if v > @freq
-#	      v = @freq if (v = -@timer) > @freq
-#	      v = -@timer > @freq ? @freq : -@timer
-#	      v = @timer < @freq ? @freq : -@timer
-#	      v = [-@timer, @freq][(@freq - @timer <=> 0) + 1 >> 1]
+#	      v = freq if v > freq
+#	      v = freq if (v = -@timer) > freq
+#	      v = -@timer > freq ? freq : -@timer
+#	      v = @timer < freq ? freq : -@timer
+#	      v = [-@timer, freq][(freq - @timer <=> 0) + 1 >> 1]
               sum += v * WAVE_FORM[@step = (@step + 1) & 0x1f]
               @timer += @freq
             end while @timer < 0
-#	    end while (@timer += @freq) < 0
+#	    end while (@timer += freq) < 0
             @amp = (sum * CHANNEL_OUTPUT_MUL + @rate / 2) / @rate * 3
           else
             @amp = WAVE_FORM[@step] * CHANNEL_OUTPUT_MUL * 3
@@ -729,6 +735,7 @@ module Optcarrot
       end
 
       def sample
+#	freq = @freq
         @timer -= @rate
         if @active
           return @bits.even? ? @envelope.output * 2 : 0 if @timer >= 0
@@ -741,20 +748,22 @@ module Optcarrot
 #	      sum += (
               v = -@timer
               v = @freq if v > @freq
-#	      v = @freq if (v = -@timer) > @freq
-#	      v = -@timer > @freq ? @freq : -@timer
-#	      v = @timer < @freq ? @freq : -@timer
-#	      v = [-@timer, @freq][(@freq - @timer <=> 0) + 1 >> 1]
+#	      v = freq if v > freq
+#	      v = freq if (v = -@timer) > freq
+#	      v = -@timer > freq ? freq : -@timer
+#	      v = @timer < freq ? freq : -@timer
+#	      v = [-@timer, freq][(freq - @timer <=> 0) + 1 >> 1]
               sum += v
             end
             @timer += @freq
           end while @timer < 0
-#	    end while (@timer += @freq) < 0
+#	  end while (@timer += freq) < 0
           return (sum * @envelope.output + @rate / 2) / @rate * 2
         else
           while @timer < 0
             @bits = @shifter[@bits]
             @timer += @freq
+#	    @timer += freq
           end
           return 0
         end
