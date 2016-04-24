@@ -950,7 +950,7 @@ module Optcarrot
     def run
 #     conf__debug = ->(num_b__flags_pack) {
 #	@conf.debug("PC:%04X A:%02X X:%02X Y:%02X P:%02X SP:%02X CYC:%3d : OPCODE:%02X (%d, %d)" % [
-#	  @_pc, @_a, @_x, @_y, num_b__flags_pack, @_sp, (@clk >> 2) % 341, @opcode, @clk, @clk_target
+#	  @_pc, @_a, @_x, @_y, num_b__flags_pack, @_sp, (@clk >> 2) % 341, @opcode, @clk, @clk_target	# seisuu ?
 #	])
 #     }
 
@@ -992,10 +992,10 @@ module Optcarrot
     DISPATCH = []
 
     def self.op(opcodes, args)
-#     flg = args.is_a?(Array)
+#     flg = args.is_a?(Array) && [:r_op, :w_op, :rw_op].include?(args[0])
       opcodes.each do |opcode|
         if args.is_a?(Array) && [:r_op, :w_op, :rw_op].include?(args[0])
-#	if flg && [:r_op, :w_op, :rw_op].include?(args[0])
+#	if flg
           kind, op, mode = args
           mode = ADDRESSING_MODES[mode][opcode >> 2 & 7]
           send_args = [kind, op, mode]
@@ -1006,10 +1006,10 @@ module Optcarrot
         end
       end
 #     kind = nil
-#     flg = args.is_a?(Array)
+#     flg = args.is_a?(Array) && [:r_op, :w_op, :rw_op].include?(args[0])
 #     opcodes.each do |opcode|
 #	send_args = args # .dup # args[0 .. 2]
-#	if flg && [:r_op, :w_op, :rw_op].include?(args[0])
+#	if flg
 #	  kind || (kind, op, mode = args; mode = ADDRESSING_MODES[mode][opcode >> 2 & 7])
 #	  send_args[2] = mode
 #	  send_args<< (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op		# p
