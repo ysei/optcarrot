@@ -261,6 +261,7 @@ module Optcarrot
         run
       end
       @output_pixels << @palette[15] while @output_pixels.size < 256 * 240 # fill black
+#     @output_pixels << @palette[15] while @output_pixels.size < 61440 # fill black
     end
 
     def monitor_a12_rising_edge(monitor)
