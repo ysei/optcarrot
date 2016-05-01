@@ -586,13 +586,15 @@ module Optcarrot
 #	      v = [-@timer, freq][(freq <=> @timer) + 1 >> 1]
 #	      v = [-@timer, freq][(@timer - freq <=> 0) >> 1]
 #	      v = [-@timer, freq][(@timer <=> freq) >> 1]
+#	      v = [-(v = @timer), -v, freq][v <=> freq]
+#	      v = [(v = -@timer), v, freq][freq <=> v]
 #	      v = [0, freq + @timer][(freq <=> @timer) + 1 >> 1] - @timer
 #	      v = [0, freq + @timer][(@timer <=> freq) >> 1] - @timer
 #	      v = [0, freq][v = ((freq <=> @timer) + 1 >> 1)] - @timer * (1 - v)
 #	      v = [0, freq][v = ((@timer <=> freq) >> 1)] - @timer * (1 + v)
 #	      v = [0, freq][v = ((freq <=> @timer) + 1 >> 1)] - (1 - v) * @timer
 #	      v = [0, freq][v = ((@timer <=> freq) >> 1)] - (1 + v) * @timer
-#	      v = freq * (v = ((freq <=> @timer) + 1 >> 1)) - @timer * (1 - v)
+#	      v = freq * (v = (freq <=> @timer) + 1 >> 1) - @timer * (1 - v)
 #	      v = ([freq][@timer <=> freq) + 1] || -@timer)
               sum += v >> @form[@step = (@step + 1) & 7]
               @timer += @freq
