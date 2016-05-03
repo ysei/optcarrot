@@ -260,8 +260,11 @@ module Optcarrot
         @hclk_target = FOREVER_CLOCK
         run
       end
+#     palette__15 = @palette[15] # .dup
+#     num__size__output_pixels = @output_pixels.size
       @output_pixels << @palette[15] while @output_pixels.size < 256 * 240 # fill black
 #     @output_pixels << @palette[15] while @output_pixels.size < 61440 # fill black
+#     @output_pixels << palette__15 while num__size__output_pixels < 61440 # fill black
     end
 
     def monitor_a12_rising_edge(monitor)
