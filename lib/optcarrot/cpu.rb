@@ -947,12 +947,15 @@ module Optcarrot
       @clk_target = clock
     end
 
-    def run
+#     @@conf__debug = -> {
+#   def run
 #     conf__debug = -> {
 #	@conf.debug("PC:%04X A:%02X X:%02X Y:%02X P:%02X SP:%02X CYC:%3d : OPCODE:%02X (%d, %d)" % [
 #	  @_pc, @_a, @_x, @_y, flags_pack, @_sp, (@clk >> 2) % 341, @opcode, @clk, @clk_target	# seisuu ?
 #	])
 #     }
+    def run
+#     conf__debug = @@conf__debug
 
       do_clock
 #     flg = @conf.loglevel >= 3
