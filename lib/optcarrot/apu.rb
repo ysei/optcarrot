@@ -569,6 +569,7 @@ module Optcarrot
         @timer -= @rate
         if @active
           if @timer < 0
+#	    num__sft = 8	# 652
             sum >>= @form[@step]
             begin
 #	      sum += (
@@ -590,13 +591,11 @@ module Optcarrot
 #	      v = [(v = -@timer), v, freq][freq <=> v]
 #	      v = [0, freq + @timer][(freq <=> @timer) + 1 >> 1] - @timer
 #	      v = [0, freq + @timer][(@timer <=> freq) >> 1] - @timer
-#	      v = [0, freq][v = ((freq <=> @timer) + 1 >> 1)] - @timer * (1 - v)
-#	      v = [0, freq][v = ((@timer <=> freq) >> 1)] - @timer * (1 + v)
-#	      v = [0, freq][v = ((freq <=> @timer) + 1 >> 1)] - (1 - v) * @timer
-#	      v = [0, freq][v = ((@timer <=> freq) >> 1)] - (1 + v) * @timer
-#	      v = freq * (v = (freq <=> @timer) + 1 >> 1) - @timer * (1 - v)
-#	      v = (v = (freq <=> @timer) + 1 >> 1) * freq - @timer * (1 - v)
-#	      v = (v = (@timer <=> freq) >> 1) * -freq - (1 + v) * @timer
+#	      v = [0, freq][v = ((freq <=> @timer) + 1 >> 1)] - (@timer >> (v << num__sft))
+#	      v = [0, freq][v = ((@timer <=> freq) >> 1)] - (@timer << (v << num__sft))
+#	      v = freq * (v = (freq <=> @timer) + 1 >> 1) - (@timer >> (v << num__sft))
+#	      v = (v = (freq <=> @timer) + 1 >> 1) * freq - (@timer >> (v << num__sft))
+#	      v = (v = (@timer <=> freq) >> 1) * -freq - (@timer << (v << num__sft))
 #	      v = ([freq][@timer <=> freq) + 1] || -@timer)
 #	      v = [0, v = freq - @timer][(v = v <=> 0) + 1 >> 1] + @timer * ((v - 1 >> 1 << 1) + 1)
 #	      v = [0, v = freq - @timer, 0][v = v <=> 0] + @timer * ((v - 1 >> 1 << 1) + 1)
@@ -698,10 +697,32 @@ module Optcarrot
               v = @freq if v > @freq
 #	      v = freq if v > freq
 #	      v = freq if (v = -@timer) > freq
+#	      v = -@timer <= freq ? -@timer : freq
 #	      v = -@timer > freq ? freq : -@timer
 #	      v = @timer < freq ? freq : -@timer
+#	      v = freq > @timer ? freq : -@timer
+#	      v = @timer >= freq ? -@timer : freq
+#	      v = freq <= @timer ? -@timer : freq
+#	      v = [-@timer, freq][(freq - @timer <=> 0) + 1 >> 1]
+#	      v = [-@timer, freq][(freq <=> @timer) + 1 >> 1]
+#	      v = [-@timer, freq][(@timer - freq <=> 0) >> 1]
 #	      v = [-@timer, freq][(@timer <=> freq) >> 1]
+#	      v = [-(v = @timer), -v, freq][v <=> freq]
 #	      v = [(v = -@timer), v, freq][freq <=> v]
+#	      v = [0, freq + @timer][(freq <=> @timer) + 1 >> 1] - @timer
+#	      v = [0, freq + @timer][(@timer <=> freq) >> 1] - @timer
+#	      v = [0, freq][v = ((freq <=> @timer) + 1 >> 1)] - @timer * (1 - v)
+#	      v = [0, freq][v = ((@timer <=> freq) >> 1)] - @timer * (1 + v)
+#	      v = [0, freq][v = ((freq <=> @timer) + 1 >> 1)] - (1 - v) * @timer
+#	      v = [0, freq][v = ((@timer <=> freq) >> 1)] - (1 + v) * @timer
+#	      v = freq * (v = (freq <=> @timer) + 1 >> 1) - @timer * (1 - v)
+#	      v = (v = (freq <=> @timer) + 1 >> 1) * freq - @timer * (1 - v)
+#	      v = (v = (@timer <=> freq) >> 1) * -freq - (1 + v) * @timer
+#	      v = ([freq][@timer <=> freq) + 1] || -@timer)
+#	      v = [0, v = freq - @timer][(v = v <=> 0) + 1 >> 1] + @timer * ((v - 1 >> 1 << 1) + 1)
+#	      v = [0, v = freq - @timer, 0][v = v <=> 0] + @timer * ((v - 1 >> 1 << 1) + 1)
+#	      v = [0, v = freq - @timer][(v = v <=> 0) + 1 >> 1] + @timer * (((v <=> 1) << 1) + 1)
+#	      v = [0, v = freq - @timer, 0][v = v <=> 0] + @timer * (((v <=> 1) << 1) + 1)
               sum += v * WAVE_FORM[@step = (@step + 1) & 0x1f]
               @timer += @freq
             end while @timer < 0
