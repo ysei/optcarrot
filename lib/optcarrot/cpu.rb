@@ -949,15 +949,40 @@ module Optcarrot
 
 #     @@conf__debug = -> {
 #     @@conf__debug = Proc.new {
+#   @@conf__debug = [
+#     -> {
+#     Proc.new {
 #   def run
 #     conf__debug = -> {
 #     conf__debug = Proc.new {
 #	@conf.debug("PC:%04X A:%02X X:%02X Y:%02X P:%02X SP:%02X CYC:%3d : OPCODE:%02X (%d, %d)" % [
 ##	  @_pc, @_a, @_x, @_y, flags_pack, @_sp, @clk / 4 % 341, @opcode, @clk, @clk_target
+#	  @_pc, @_a, @_x, @_y, flags_pack, @_sp, @clk * 0.25 % 341, @opcode, @clk, @clk_target
 #	  @_pc, @_a, @_x, @_y, flags_pack, @_sp, (@clk >> 2) % 341, @opcode, @clk, @clk_target	# seisuu ?
 #	])
 #     }
+#   ]
+
+##  @@conf__debug = nil unless @conf.loglevel >= 3
+
     def run
+#     if @@conf__debug && @@conf__debug.is_a?(Array)
+#     if @@conf__debug.is_a?(Array)
+##	conf__debug =
+#	  @@conf__debug = @conf.loglevel >= 3 ? @@conf__debug[0] : nil
+#	  @@conf__debug = @@conf__debug[[true, false].index(@conf.loglevel >= 3)] # * @@conf__debug.size
+#	  @@conf__debug = @@conf__debug[[true, false].index(@conf.loglevel >= 3)] << (@@conf__debug.size + 1 >> 1)
+#	def send(*ary)
+##	  conf__debug.call
+#	  @@conf__debug.call
+#	  (conf__debug ||= @@conf__debug).call		# mikakunin higokan ? mruby 70410200
+#	  (conf__debug ||= (@@conf__debug)).call	# mikakunin higokan ? mruby 70410200
+#	  __send__(*ary)
+#	  super(*ary)
+#	  super
+#	end
+#     end
+
 #     conf__debug = @@conf__debug
 #     conf__debug = nil
 
@@ -976,11 +1001,12 @@ module Optcarrot
 #	    @@conf__debug.call
 #	    (conf__debug ||= @@conf__debug).call	# mikakunin higokan ? mruby 70410200
 #	    (conf__debug ||= (@@conf__debug)).call	# mikakunin higokan ? mruby 70410200
-	    end
+          end
 
           @_pc += 1
 
           send(*DISPATCH[@opcode])
+#	  self.send(*DISPATCH[@opcode])
 
 #	  clk = @clk	# ?
           @ppu.sync(@clk) if @ppu_sync
