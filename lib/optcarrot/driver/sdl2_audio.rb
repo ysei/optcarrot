@@ -8,7 +8,14 @@ module Optcarrot
     def init
       SDL2.InitSubSystem(SDL2::INIT_AUDIO)
       @max_buff_size = @rate * @bits / 8 * BUFFER_IN_FRAME / NES::FPS
+#     @max_buff_size = @rate * @bits * BUFFER_IN_FRAME / 8 / NES::FPS
+#     @max_buff_size = @rate * @bits * BUFFER_IN_FRAME / NES::FPS / 8
+#     @max_buff_size = @rate * @bits * BUFFER_IN_FRAME / (NES::FPS * 8)
+#     @max_buff_size = @rate * @bits * 0.125 * BUFFER_IN_FRAME / NES::FPS
+#     @max_buff_size = @rate * @bits * BUFFER_IN_FRAME * 0.125 / NES::FPS
 #     @max_buff_size = (@rate * @bits >> 3) * BUFFER_IN_FRAME / NES::FPS	# seisuu ?
+#     @max_buff_size = (@rate * @bits * BUFFER_IN_FRAME >> 3) / NES::FPS	# seisuu ?
+#     @max_buff_size = @rate * @bits * BUFFER_IN_FRAME / (NES::FPS << 3)	# seisuu ?
 
       # we need to prevent this callback object from GC
       @callback = SDL2.AudioCallback(method(:callback))
@@ -19,11 +26,13 @@ module Optcarrot
       desired[:channels] = 1
       desired[:samples] = @rate / 60 * 2
 #     desired[:samples] = @rate / 30
+#     desired[:samples] = @rate * 0.033333
       desired[:callback] = defined?(SDL2.QueueAudio) ? nil : @callback
       desired[:userdata] = nil
       obtained = SDL2::AudioSpec.new
       @dev = SDL2.OpenAudioDevice(nil, 0, desired, obtained, 0)
       if @dev == 0
+#     if 0 == @dev = SDL2.OpenAudioDevice(nil, 0, desired, obtained, 0)
         @conf.error("SDL2_OpenAudioDevice failed: #{ SDL2.GetError }")
         abort
       end
@@ -50,6 +59,7 @@ module Optcarrot
     def callback(_userdata, stream, stream_len)
       buff_size = @buff.size
       if stream_len > buff_size
+#     if stream_len > buff_size = @buff.size
         # stream.clear # is it okay?
         stream.write_string_length(@buff, buff_size)
         @buff.clear
