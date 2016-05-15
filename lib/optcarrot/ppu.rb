@@ -264,7 +264,9 @@ module Optcarrot
 #     num__size__output_pixels = @output_pixels.size
       @output_pixels << @palette[15] while @output_pixels.size < 256 * 240 # fill black
 #     @output_pixels << @palette[15] while @output_pixels.size < 61440 # fill black
+#     (61440 - @output_pixels.size).times {@output_pixels << @palette[15]} # fill black
 #     @output_pixels << palette__15 while num__size__output_pixels < 61440 # fill black
+#     (61440 - @output_pixels.size).times {@output_pixels << palette__15} # fill black
 #     @output_pixels += [palette__15] * (61440 - @output_pixels.size) # fill black
     end
 
