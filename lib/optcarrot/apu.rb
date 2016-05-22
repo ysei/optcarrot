@@ -593,8 +593,7 @@ module Optcarrot
 #	      v = [0, freq + @timer][(@timer <=> freq) >> 1] - @timer
 #	      v = [0, freq][v = ((freq <=> @timer) + 1 >> 1)] - (@timer >> (v << num__sft))
 #	      v = [0, freq][v = ((@timer <=> freq) >> 1)] - (@timer << (v << num__sft))
-#	      v = freq * (v = (freq <=> @timer) + 1 >> 1) - (@timer >> (v << num__sft))
-#	      v = (v = (freq <=> @timer) + 1 >> 1) * freq - (@timer >> (v << num__sft))
+#	      v = (freq >> ((1 + (v = (@timer <=> freq) >> 1)) << num__sft)) + (@timer << (v << num__sft))'
 #	      v = (v = (@timer <=> freq) >> 1) * -freq - (@timer << (v << num__sft))
 #	      v = ([freq][@timer <=> freq) + 1] || -@timer)
 #	      v = [0, v = freq - @timer][(v = v <=> 0) + 1 >> 1] + @timer * ((v - 1 >> 1 << 1) + 1)
