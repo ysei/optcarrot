@@ -565,6 +565,8 @@ module Optcarrot
       byte1 = @sp_buffer[buffer_idx + 1]
       addr = @sp_height == 16 ? ((byte1 & 0x01) << 12) | ((byte1 & 0xfe) << 4) | (tmp[3] * 0x10) : @sp_base | byte1 << 4
       addr | (tmp & 7)
+#     (@sp_height == 16 ? ((byte1 & 0x01) << 12) | ((byte1 & 0xfe) << 4) | (tmp[3] * 0x10) : @sp_base | byte1 << 4) | (tmp & 7)
+#     (@sp_height == 16 ? ((byte1 & 0x01) << 12) | ((byte1 & 0xfe) << 4) | (tmp[3] << 4) : @sp_base | byte1 << 4) | (tmp & 7)	# seisuu ?
     end
 
     def load_sprite(pat0, pat1, buffer_idx)
