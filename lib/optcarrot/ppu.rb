@@ -331,10 +331,13 @@ module Optcarrot
     def io_latch_mask(data)
       if active?
         0xff
+#	return 0xff
       elsif @regs_oam & 0x03 == 0x02
         data & 0xe3
+#	return data & 0xe3
       else
         data
+#	data # & 0xff
       end
     end
 
