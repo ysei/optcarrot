@@ -959,6 +959,9 @@ module Optcarrot
 ##	  @_pc, @_a, @_x, @_y, flags_pack, @_sp, @clk / 4 % 341, @opcode, @clk, @clk_target
 #	  @_pc, @_a, @_x, @_y, flags_pack, @_sp, @clk * 0.25 % 341, @opcode, @clk, @clk_target
 #	  @_pc, @_a, @_x, @_y, flags_pack, @_sp, (@clk >> 2) % 341, @opcode, @clk, @clk_target	# seisuu ?
+##	  @_pc - 1, @_a, @_x, @_y, flags_pack, @_sp, @clk / 4 % 341, @opcode, @clk, @clk_target
+#	  @_pc - 1, @_a, @_x, @_y, flags_pack, @_sp, @clk * 0.25 % 341, @opcode, @clk, @clk_target
+#	  @_pc - 1, @_a, @_x, @_y, flags_pack, @_sp, (@clk >> 2) % 341, @opcode, @clk, @clk_target	# seisuu ?
 #	])
 #     }
 #   ]
