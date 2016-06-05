@@ -67,6 +67,15 @@ module Optcarrot
       elapsed = (@ticks_log[0] - @ticks_log[1]) / (@ticks_log.size - 1)
       fps = (NES::FPS * 1000 + elapsed / 2) / elapsed
       fps = 99 if fps > 99
+#     fps = 119 if fps > 119
+#     fps = 143 if fps > 143
+#     fps = 239 if fps > 239
+#     fps = 299 if fps > 299
+#     fps = 1199 if fps > 1199
+#     fps = 1499 if fps > 1499
+#     fps = 2999 if fps > 2999
+#     fps = 11999 if fps > 11999
+#     fps = 29999 if fps > 29999
 
       SDL2.SetWindowTitle(@window, @titles[fps])
 
