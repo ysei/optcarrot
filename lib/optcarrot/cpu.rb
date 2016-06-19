@@ -963,6 +963,9 @@ module Optcarrot
     def run
 #     if @@conf__debug && @@conf__debug.is_a?(Array)
 #     if @@conf__debug.is_a?(Array)
+#     @@conf__debug && case @@conf__debug
+#     case @@conf__debug
+#     when Array
 #	@@conf__debug = @conf.loglevel >= 3 ? @@conf__debug[0] : nil
 #	@@conf__debug = @@conf__debug[[true, false].index(@conf.loglevel >= 3)] # * @@conf__debug.size
 #	@@conf__debug = @@conf__debug[[true, false].index(@conf.loglevel >= 3)] << (@@conf__debug.size + 1 >> 1)
@@ -992,7 +995,7 @@ module Optcarrot
           send(*DISPATCH[@opcode])
 #	  self.send(*DISPATCH[@opcode])
 
-#	  clk = @clk	# ?
+#	  clk = @clk # + 0 # .dup	# ?
           @ppu.sync(@clk) if @ppu_sync
 #	  @ppu.sync(clk) if @ppu_sync	# ?
         end while @clk < @clk_target
