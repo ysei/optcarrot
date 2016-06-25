@@ -982,16 +982,20 @@ module Optcarrot
       begin
         begin
           @opcode = fetch(@_pc)
+#	  @opcode = fetch((@_pc += 1) - 1)
 ###
           if @conf.loglevel >= 3
 #	  if flg
             @conf.debug("PC:%04X A:%02X X:%02X Y:%02X P:%02X SP:%02X CYC:%3d : OPCODE:%02X (%d, %d)" % [
               @_pc, @_a, @_x, @_y, flags_pack, @_sp, @clk / 4 % 341, @opcode, @clk, @clk_target
+#	      @_pc - 1, @_a, @_x, @_y, flags_pack, @_sp, @clk / 4 % 341, @opcode, @clk, @clk_target
+#	      @_pc - 1, @_a, @_x, @_y, flags_pack, @_sp, @clk * 0.25 % 341, @opcode, @clk, @clk_target
+#	      @_pc - 1, @_a, @_x, @_y, flags_pack, @_sp, (@clk >> 2) % 341, @opcode, @clk, @clk_target	# seisuu ?
             ])
           end
 ###
           @_pc += 1
-
+#
           send(*DISPATCH[@opcode])
 #	  self.send(*DISPATCH[@opcode])
 
