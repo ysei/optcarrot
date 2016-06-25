@@ -568,18 +568,20 @@ module Optcarrot
       byte1 = @sp_buffer[buffer_idx + 1]
       addr = @sp_height == 16 ? ((byte1 & 0x01) << 12) | ((byte1 & 0xfe) << 4) | (tmp[3] * 0x10) : @sp_base | byte1 << 4
       addr | (tmp & 7)
-#     (@sp_height == 16 ? ((byte1 & 0x01) << 12) | ((byte1 & 0xfe) << 4) | (tmp[3] * 0x10) : @sp_base | byte1 << 4) | (tmp & 7)
-#     (@sp_height == 16 ? ((byte1 & 0x01) << 12) | ((byte1 & 0xfe) << 4) | (tmp[3] << 4) : @sp_base | byte1 << 4) | (tmp & 7)	# seisuu ?
+#     # addr =
+#	(@sp_height == 16 ? ((byte1 & 0x01) << 12) | ((byte1 & 0xfe) << 4) | (tmp[3] * 0x10) : @sp_base | byte1 << 4) |
+#	(@sp_height == 16 ? ((byte1 & 0x01) << 12) | ((byte1 & 0xfe) << 4) | (tmp[3] << 4) : @sp_base | byte1 << 4) |	# seisuu ?
+#     (tmp & 7)
 
 #     sp_buffer__buffer_idx = @sp_buffer[buffer_idx .. buffer_idx + 2] # .dup
 #     flip_v = sp_buffer__buffer_idx[2][7] # OAM byte2 bit7: "Flip vertically" flag
 #     tmp = (@scanline - sp_buffer__buffer_idx[0]) ^ (flip_v * 0xf)
 ##    tmp = (@scanline - sp_buffer__buffer_idx[0]) ^ ((flip_v << 4) - flip_v)   # seisuu ?
 #     byte1 = sp_buffer__buffer_idx[1]
-#     addr = @sp_height == 16 ? ((byte1 & 0x01) << 12) | ((byte1 & 0xfe) << 4) | (tmp[3] * 0x10) : @sp_base | byte1 << 4
-#     addr | (tmp & 7)
-##    (@sp_height == 16 ? ((byte1 & 0x01) << 12) | ((byte1 & 0xfe) << 4) | (tmp[3] * 0x10) : @sp_base | byte1 << 4) | (tmp & 7)
-##    (@sp_height == 16 ? ((byte1 & 0x01) << 12) | ((byte1 & 0xfe) << 4) | (tmp[3] << 4) : @sp_base | byte1 << 4) | (tmp & 7)   # seisuu ?
+#     # addr =
+#	(@sp_height == 16 ? ((byte1 & 0x01) << 12) | ((byte1 & 0xfe) << 4) | (tmp[3] * 0x10) : @sp_base | byte1 << 4) |
+#	(@sp_height == 16 ? ((byte1 & 0x01) << 12) | ((byte1 & 0xfe) << 4) | (tmp[3] << 4) : @sp_base | byte1 << 4) |   # seisuu ?
+#     (tmp & 7)  
     end
 
     def load_sprite(pat0, pat1, buffer_idx)
