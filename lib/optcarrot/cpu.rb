@@ -948,7 +948,7 @@ module Optcarrot
     end
 
 #   @@conf__debug = [
-#     -> {
+#     -> {	# l 
 #     Proc.new {
 #	@conf.debug("PC:%04X A:%02X X:%02X Y:%02X P:%02X SP:%02X CYC:%3d : OPCODE:%02X (%d, %d)" % [
 ##	  @_pc - 1, @_a, @_x, @_y, flags_pack, @_sp, @clk / 4 % 341, @opcode, @clk, @clk_target
@@ -1035,12 +1035,19 @@ module Optcarrot
 #     kind = nil
 #     flg = args.is_a?(Array) && [:r_op, :w_op, :rw_op].include?(args[0])
 #     opcodes.each do |opcode|
-#	send_args = args # .dup # args[0 .. 2]
+#	send_args = args # [0 .. 2] # .dup
+##	send_args[2] = send_args[2] # .dup
 #	if flg
-#	  kind || (kind, op, mode = args; mode = ADDRESSING_MODES[mode][opcode >> 2 & 7])
-#	  send_args[2] = mode
-#	  send_args<< (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op		# p
-##	  send_args[3] = (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op	# >= 1.9 ?
+#	  kind || (
+#	    kind, op, mode = args
+##	    send_args[2] = mode = ADDRESSING_MODES[mode][opcode >> 2 & 7]
+#	    mode = ADDRESSING_MODES[mode][opcode >> 2 & 7]
+####	  )
+##	    send_args[2] = mode
+##	    send_args[2] ||= mode
+#	    send_args<< (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op	# p 
+##	    send_args[3] = (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op	# >= 1.9 ?
+####	  )
 #	end
 #	DISPATCH[opcode] = [*send_args]
 #     end
