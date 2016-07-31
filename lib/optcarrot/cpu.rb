@@ -901,24 +901,33 @@ module Optcarrot
     def r_op(instr, mode)
       send(mode, true, false)
       send(instr)
+#     __send__(mode, true, false)
+#     __send__(instr)
     end
 
     def w_op(instr, mode, store)
       send(mode, false, true)
       send(instr)
       send(store)
+#     __send__(mode, false, true)
+#     __send__(instr)
+#     __send__(store)
     end
 
     def rw_op(instr, mode, store)
       send(mode, true, true)
       send(instr)
       send(store)
+#     __send__(mode, true, true)
+#     __send__(instr)
+#     __send__(store)
     end
 
     def a_op(instr)
       @clk += CLK_2
       @data = @_a
       send(instr)
+#     __send__(instr)
       @_a = @data
     end
 
