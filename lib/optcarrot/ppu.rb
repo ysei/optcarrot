@@ -37,6 +37,10 @@ module Optcarrot
       0 => [3, 7, 2, 6, 1, 5, 0, 4], # normal
       1 => [4, 0, 5, 1, 6, 2, 7, 3], # flip
     }
+#   SP_PIXEL_POSITIONS = [
+#     [3, 7, 2, 6, 1, 5, 0, 4], # normal
+#     [4, 0, 5, 1, 6, 2, 7, 3], # flip
+#   ]
 
     # A look-up table mapping: (two pattern bytes * attr) -> eight pixels
     #   TILE_LUT[attr][high_byte * 0x100 + low_byte] = [pixels] * 8
@@ -608,6 +612,7 @@ module Optcarrot
       if @a12_monitor
         a12_state = @io_addr[12] == 1
         @a12_monitor.a12_signaled((@vclk + @hclk) * RP2C02_CC) if !@a12_state && a12_state
+#       @a12_monitor.a12_signaled((@vclk + @hclk) * RP2C02_CC) if a12_state && !@a12_state
         @a12_state = a12_state
       end
     end
@@ -648,6 +653,7 @@ module Optcarrot
     def fetch_bg_pattern_1
       return unless @any_show
       @bg_pattern |= @chr_mem[@io_addr & 0x1fff] * 0x100
+#     @bg_pattern |= @chr_mem[@io_addr & 0x1fff] << 0x8
     end
 
     def scroll_clock_x
