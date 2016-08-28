@@ -8,11 +8,21 @@ module Optcarrot
       SDL2.InitSubSystem(SDL2::INIT_VIDEO)
       @ticks_log = [0] * 11
       @buf = FFI::MemoryPointer.new(:uint32, WIDTH * HEIGHT)
+#     titles = ['optcarrot', 3000 - 1] # .freeze
       @titles = (0..99).map {|n| "optcarrot (%d fps)" % n }
+#     @titles = (0..[titles[1], titles = titles[0]][0]).map {|n|
+#	"%s (%d fps)" % [titles, n] } # .freeze # .lazy
+#	"%s (%s fps)" % [titles, n.to_s(0x10).reverse] } # .freeze # .lazy
+#	sprintf("%s (%d fps)", titles, n)} # .freeze # .lazy
+#	sprintf("%s (%s fps)", titles, n.to_s(0x10).reverse)} # .freeze # .lazy
+#	titles << ' (' << n.to_s(0x10).reverse << " fps)"} # .freeze # .lazy
+#	titles + ' (' + n.to_s(0x10).reverse + " fps)"} # .freeze # .lazy
+#	"#{titles} (#{n.to_s(0x10).reverse} fps)"} # .freeze # .lazy
 
       @window =
         SDL2.CreateWindow(
           "optcarrot",
+#	  titles,
           SDL2::WINDOWPOS_UNDEFINED,
           SDL2::WINDOWPOS_UNDEFINED,
           TV_WIDTH, HEIGHT,
@@ -66,16 +76,24 @@ module Optcarrot
       end
       elapsed = (@ticks_log[0] - @ticks_log[1]) / (@ticks_log.size - 1)
       fps = (NES::FPS * 1000 + elapsed / 2) / elapsed
+#     fps = (NES::FPS * 1000 + elapsed * 0.5) / elapsed
+#     fps = (NES::FPS * 1000 + (elapsed >> 1)) / elapsed	# seisuu ?
+#     fps = (-((fps = (NES::FPS) << 3) + (fps << 1)) + (fps << 7) + elapsed >> 1) / elapsed	# seisuu ?
+#     fps = (-((fps = (NES::FPS) << 3) + (fps << 1)) + (fps << 7) + elapsed * 0.5) / elapsed
+#     fps = (((fps = (NES::FPS) << 3) << 7) - (fps << 1) - fps) + (elapsed >> 1)) / elapsed	# seisuu ?
+#     fps = (((fps = (NES::FPS) << 3) << 7) - (fps << 1) - fps) + (elapsed * 0.5)) / elapsed
+#     fps = (-((fps = (NES::FPS) << 4) + (fps >> 1)) + (fps << 6) + elapsed >> 1) / elapsed	# seisuu ?
+#     fps = (-((fps = (NES::FPS) << 4) + (fps >> 1)) + (fps << 6) + elapsed * 0.5) / elapsed
       fps = 99 if fps > 99
-#     fps = 119 if fps > 119
-#     fps = 143 if fps > 143
-#     fps = 239 if fps > 239
-#     fps = 299 if fps > 299
-#     fps = 1199 if fps > 1199
-#     fps = 1499 if fps > 1499
-#     fps = 2999 if fps > 2999
-#     fps = 11999 if fps > 11999
-#     fps = 29999 if fps > 29999
+#     fps = 120 if fps > 120
+#     fps = 144 if fps > 144
+#     fps = 240 if fps > 240
+#     fps = 300 if fps > 300
+#     fps = 1200 if fps > 1200
+#     fps = 1500 if fps > 1500
+#     fps = 3000 if fps > 3000
+#     fps = 12000 if fps > 12000
+#     fps = 30000 if fps > 30000
 
       SDL2.SetWindowTitle(@window, @titles[fps])
 
