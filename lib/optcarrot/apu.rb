@@ -861,17 +861,24 @@ module Optcarrot
             @lin_sample -= step
           else
             @lin_sample = @cur_sample
+
 #	  step = [@cur_sample, CHANNEL_OUTPUT_MUL * 8] # .dup
 #	  step = [@cur_sample, CHANNEL_OUTPUT_MUL << 3] # .dup
+#	if (step = [@cur_sample])[0] != @lin_sample # .dup
+#	  step += [CHANNEL_OUTPUT_MUL * 8] # .dup
+#	  step += [CHANNEL_OUTPUT_MUL << 3] # .dup
 #	  if (step += [step[0] - @lin_sample])[1] <
 #	  if (step<< step[0] - @lin_sample)[1] <	# p 
 #		(step[2] ^ (step[2] = (step[2] <=> 0) >> 1)) - step[2]
 #		step[2] - ((step[2] & step[2] = (step[2] <=> 0) >> 1) << 1)
-##	  	step[2].abs
+#		step[2] - (step[2] << 1 & step[2] = (step[2] <=> 0) >> 1)
+##		step[2].abs
 ##	  	step[2] * (step[2] <=> 0)
 ##	  	(step[2] <=> 0) * step[2]
 #	    @lin_sample +=
 #	      (step[1] ^ step[2]) - step[2]
+#	      step[1] * step[2]
+#	      step[2] * step[1]
 ##	      (step[1] ^ (step[2] = (step[2] <=> 0) >> 1)) - step[2]
 ##	      (step[1] + 1 ^ (step[2] = (step[2] <=> 0) >> 1)) - step[2] - 1
 ##	      step[1] * (step[2] <=> 0)
