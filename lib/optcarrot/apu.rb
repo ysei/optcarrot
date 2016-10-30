@@ -874,13 +874,11 @@ module Optcarrot
 #		step[3] - ((step[3] & step[3] = (step[3] <=> 0) >> 1) << 1)
 #		step[3] - (step[3] << 1 & step[3] = (step[3] <=> 0) >> 1)
 ##		step[3].abs
-##	  	step[3] * (step[3] <=> 0)
-##	  	(step[3] <=> 0) * step[3]
+##		step[3] * (step[3] <=> 0)
+##		(step[3] <=> 0) * step[3]
 ####	    @lin_sample +=
 #	    step[1] +
 #	      (step[2] ^ step[3]) - step[3]
-#	      step[2] * step[3]
-#	      step[3] * step[2]
 ##	      (step[2] ^ (step[3] = (step[3] <=> 0) >> 1)) - step[3]
 ##	      (step[2] + 1 ^ (step[3] = (step[3] <=> 0) >> 1)) - step[3] - 1
 ##	      step[2] * (step[3] <=> 0)
