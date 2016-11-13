@@ -895,7 +895,9 @@ module Optcarrot
 #	      step[3] &= 1
 #	      step[3] = step[3].abs
 #	      step[3] = (step[3] << 1) - 1
-#	      step[3] = (step[3] * 2) - 1
+#	      step[3] = -1 + (step[3] << 1)
+#	      step[3] = step[3] * 2 - 1
+#	      step[3] = -1 + 2 * step[3]
 #	      step[3] = step[3] + step[3] - 1
 #	  end
 #	  return @lin_sample = step[step[3]]
