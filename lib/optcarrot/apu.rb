@@ -873,34 +873,32 @@ module Optcarrot
         @lin_sample
 
 #	if *(step = [@cur_sample]) != (step<< @lin_sample)[1] # .dup	# higokan ? mruby 70410200	# p 
+#	if (step = [@cur_sample]) != [(step<< @lin_sample)[1]] # .dup	# p 
 #	if (step = [@cur_sample, @lin_sample])[0] != step[1] # .dup
-#	  if (step += [@@channel_output_mul__8, step[0] - @lin_sample])[2] <
-#	  if (step.push(@@channel_output_mul__8, step[0] - @lin_sample))[2] <
-#		(step[3] ^ (step[3] = step[3] <=> 0) >> 1) - (step[3] >> 1)
-#		step[3] - ((step[3] & (step[3] = step[3] <=> 0) >> 1) << 1)
-#		step[3] - (step[3] << 1 & (step[3] = step[3] <=> 0) >> 1)
+#	  if (step += [@@channel_output_mul__8, step[0] - step[1]])[2] <
+#	  if (step.push(@@channel_output_mul__8, step[0] - step[1]))[2] <
+#		(step[3] ^ (step[3] = (step[3] <=> 0) >> 1)) - step[3]
+#		step[3] - ((step[3] & step[3] = (step[3] <=> 0) >> 1) << 1)
+#		step[3] - (step[3] << 1 & step[3] = (step[3] <=> 0) >> 1)
 ##		step[3].abs
 ##		step[3] * (step[3] <=> 0)
 ##		(step[3] <=> 0) * step[3]
 ####	    @lin_sample +=
-#	    step[1] +=
-#	      (step[2] ^ step[3] >> 1) - (step[3] >> 1)
-#	      step[2] * step[3]
-#	      step[3] * step[2]
-##	      (step[2] ^ (step[3] = step[3] <=> 0) >> 1) - (step[3] >> 1)
-##	      (step[2] + 1 ^ (step[3] = step[3] <=> 0) >> 1) - (step[3] >> 1) - 1
-##	      step[2] * (step[3] = step[3] <=> 0)
-##	      (step[3] = step[3] <=> 0) * step[2]
-#	
-#	      step[3] &= 1
-#	      step[3] = step[3].abs
-#	      step[3] = (step[3] << 1) - 1
-#	      step[3] = -1 + (step[3] << 1)
-#	      step[3] = step[3] * 2 - 1
-#	      step[3] = -1 + 2 * step[3]
-#	      step[3] = step[3] + step[3] - 1
+#	    step[0] = step[1] +
+#	      (step[2] ^ step[3]) - step[3]
+#	      step[2] * ((step[3] << 1) + 1)
+#	      ((step[3] << 1) + 1) * step[2]
+#	      (1 + (step[3] << 1)) * step[2]
+#	      (1 + 2 * step[3]) * step[2]
+#	      step[2] * (step[3] + step[3] + 1)
+#	      (1 + step[3] + step[3]) * step[2]
+##	      (step[2] ^ (step[3] = (step[3] <=> 0) >> 1)) - step[3]
+##	      (step[2] + 1 ^ (step[3] = (step[3] <=> 0) >> 1)) - step[3] - 1
+##	      [step[2] * (step[3] = step[3] <=> 0),
+##	      [(step[3] = step[3] <=> 0) * step[2],
+##		step[3] >>= 1][0_0]
 #	  end
-#	  return @lin_sample = step[step[3]]
+#	  return @lin_sample = step[0]
 #	end
 #	step[1]
       end
