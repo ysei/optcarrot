@@ -872,35 +872,40 @@ module Optcarrot
         end
         @lin_sample
 
-#	if *(step = [@cur_sample]) != (step<< @lin_sample)[1] # .dup	# higokan ? mruby 70410200	# p 
-#	if (step = [@cur_sample]) != [(step<< @lin_sample)[1]] # .dup	# p 
-#	if (step = [@cur_sample, @lin_sample])[0] != step[1] # .dup
-#	  if (step += [@@channel_output_mul__8, step[0] - step[1]])[2] <
-#	  if (step.push(@@channel_output_mul__8, step[0] - step[1]))[2] <
-#		(step[3] ^ (step[3] = (step[3] <=> 0) >> 1)) - step[3]
-#		step[3] - ((step[3] & step[3] = (step[3] <=> 0) >> 1) << 1)
-#		step[3] - (step[3] << 1 & step[3] = (step[3] <=> 0) >> 1)
-##		step[3].abs
-##		step[3] * (step[3] <=> 0)
-##		(step[3] <=> 0) * step[3]
+#	if *(step = [@lin_sample]) != (step<< @cur_sample)[1] # .dup	# higokan ? mruby 70410200	# p 
+#	if (step = [@lin_sample]) != [(step<< @cur_sample)[1]] # .dup	# p 
+#	if (step = [@lin_sample, @cur_sample])[0] != step[1] # .dup
+#	  if (
+#	    step = [@@channel_output_mul__8, step[1] - step[0]
+#		] + step
+#		].push(step[0], step[1])
+#		].push(*step)
+#	    step.unshift(@@channel_output_mul__8, step[1] - step[0])
+#	  )[0] <
+#		(step[0] ^ (step[0] = (step[0] <=> 0) >> 1)) - step[0]
+#		step[0] - ((step[0] & step[0] = (step[0] <=> 0) >> 1) << 1)
+#		step[0] - (step[0] << 1 & step[0] = (step[0] <=> 0) >> 1)
+##		step[0].abs
+##		step[0] * (step[0] <=> 0)
+##		(step[0] <=> 0) * step[0]
 ####	    @lin_sample +=
-#	    step[0] = step[1] +
-#	      (step[2] ^ step[3]) - step[3]
-#	      step[2] * ((step[3] << 1) + 1)
-#	      ((step[3] << 1) + 1) * step[2]
-#	      (1 + (step[3] << 1)) * step[2]
-#	      (1 + 2 * step[3]) * step[2]
-#	      step[2] * (step[3] + step[3] + 1)
-#	      (1 + step[3] + step[3]) * step[2]
-##	      (step[2] ^ (step[3] = (step[3] <=> 0) >> 1)) - step[3]
-##	      (step[2] + 1 ^ (step[3] = (step[3] <=> 0) >> 1)) - step[3] - 1
-##	      [step[2] * (step[3] = step[3] <=> 0),
-##	      [(step[3] = step[3] <=> 0) * step[2],
-##		step[3] >>= 1][0_0]
+#	    step[3] = step[2] +
+#	      (step[1] ^ step[0]) - step[0]
+#	      step[1] * ((step[0] << 1) + 1)
+#	      ((step[0] << 1) + 1) * step[1]
+#	      (1 + (step[0] << 1)) * step[1]
+#	      (1 + 2 * step[0]) * step[1]
+#	      step[1] * (step[0] + step[0] + 1)
+#	      (1 + step[0] + step[0]) * step[1]
+##	      (step[1] ^ (step[0] = (step[0] <=> 0) >> 1)) - step[0]
+##	      (step[1] + 1 ^ (step[0] = (step[0] <=> 0) >> 1)) - step[0] - 1
+##	      [step[1] * (step[0] = step[0] <=> 0),
+##	      [(step[0] = step[0] <=> 0) * step[1],
+##		step[0] >>= 1][0_0]
 #	  end
-#	  return @lin_sample = step[0]
+#	  return @lin_sample = step[3]
 #	end
-#	step[1]
+#	step[0]
       end
 
       def do_dma
