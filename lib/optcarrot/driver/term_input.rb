@@ -1,6 +1,8 @@
 require "io/console"
 require "io/wait"
 
+require_relative 'console'
+
 module Optcarrot
   # Input driver for terminal (this is a joke feature)
   class TermInput < Input
