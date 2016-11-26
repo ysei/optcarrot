@@ -3,7 +3,7 @@ require_relative "misc"
 module Optcarrot
   # Video output driver using mplayer
   class MPlayerVideo < Video
-    MAX_FPS = NES::FPS
+    MAX_FPS = 200
 
     def init
       super
