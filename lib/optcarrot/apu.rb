@@ -875,12 +875,19 @@ module Optcarrot
 #	if *(step = [@lin_sample]) != (step<< @cur_sample)[1] # .dup	# higokan ? mruby 70410200	# p 
 #	if (step = [@lin_sample]) != [(step<< @cur_sample)[1]] # .dup	# p 
 #	if (step = [@lin_sample, @cur_sample])[0] != step[1] # .dup
+##	if (step = [0, 0, @lin_sample, @cur_sample])[2] != step[3] # .dup
+##	if (step = [0, 0, @lin_sample])[2] != (step<< @cur_sample)[3] # .dup	# p 
 #	  if (
 #	    step = [step[1] - step[0], @@channel_output_mul__8
 #		] + step
 #		].push(step[0], step[1])
 #		].push(*step)
 #	    step.unshift(step[1] - step[0], @@channel_output_mul__8)
+##	    step[0, 2] =		# [0 .. 1] =
+##		[step[3] - step[2], @@channel_output_mul__8] # ; step
+##	    step = [step[3] - step[2], @@channel_output_mul__8
+##		] + step[2, 2]		# [2 .. 3]
+##		].push(*step[2, 2])	# [2 .. 3]
 #	  )[1] <
 #		(step[0] ^ (step[0] = (step[0] <=> 0) >> 1)) - step[0]
 #		step[0] - ((step[0] & step[0] = (step[0] <=> 0) >> 1) << 1)
@@ -888,12 +895,15 @@ module Optcarrot
 ##		step[0].abs
 ##		step[0] * (step[0] <=> 0)
 ##		(step[0] <=> 0) * step[0]
-####	    @lin_sample +=
+###		(step[0] ^ (step[0] = step[0] <=> 0) >> 1) - (step[0] >> 1)
+## ##	    @lin_sample +=
 #	    step[3] = step[2] +
+###	    step[2] +=
 #	      (step[1] ^ step[0]) - step[0]
+#	      step[1] * (1 + (step[0] << 1))
 #	      step[1] * ((step[0] << 1) + 1)
-#	      ((step[0] << 1) + 1) * step[1]
 #	      (1 + (step[0] << 1)) * step[1]
+#	      ((step[0] << 1) + 1) * step[1]
 #	      (1 + 2 * step[0]) * step[1]
 #	      step[1] * (step[0] + step[0] + 1)
 #	      (1 + step[0] + step[0]) * step[1]
@@ -902,11 +912,29 @@ module Optcarrot
 ##	      [step[1] * (step[0] = step[0] <=> 0),
 ##	      [(step[0] = step[0] <=> 0) * step[1],
 ##		step[0] >>= 1][0_0]
+#
+###	      (step[1] ^ step[0] >> 1) - (step[0] >> 1)
+###	      step[1] * step[0]
+###	      step[0] * step[1]
+###	    step[0] &= 1
 #	  end
 #	  return @lin_sample = step[3]
+###	  return @lin_sample = step[step[0] + 2]
+###	  return @lin_sample = step[2 + step[0]]
 #	end
 #	step[0]
+##	step[2]
       end
+###		(step[0] ^ (step[0] = (step[0] <=> 0) >> 1)) - step[0]
+###		step[0] - ((step[0] & (step[0] = step[0] <=> 0) >> 1) << 1)
+###		step[0] - (step[0] << 1 & (step[0] = step[0] <=> 0) >> 1)
+###	    step[0] &= 1
+###	    step[0] = step[0].abs
+###	    step[0] = (step[0] << 1) - 1
+###	    step[0] = -1 + (step[0] << 1)
+###	    step[0] = step[0] * 2 - 1
+###	    step[0] = -1 + 2 * step[0]
+###	    step[0] = step[0] + step[0] - 1
 
       def do_dma
         @dma_buffer = @cpu.dmc_dma(@dma_address)
