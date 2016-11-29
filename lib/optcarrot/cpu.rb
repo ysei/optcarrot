@@ -936,7 +936,7 @@ module Optcarrot
 
           @_pc += 1
 
-          send(*DISPATCH[@opcode])
+          DISPATCH.at(@opcode).call(self)
 
           @ppu.sync(@clk) if @ppu_sync
         end while @clk < @clk_target
@@ -960,9 +960,20 @@ module Optcarrot
           mode = ADDRESSING_MODES[mode][opcode >> 2 & 7]
           send_args = [kind, op, mode]
           send_args << (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op
-          DISPATCH[opcode] = send_args
+          eval "
+          def #{kind}#{op}_#{mode}
+            #{mode}(true, false)
+            #{op}
+          end
+               "
+          DISPATCH[opcode] = eval "proc {|this|
+            this.#{kind}#{op}_#{mode}
+          }
+            "
         else
-          DISPATCH[opcode] = [*args]
+          DISPATCH[opcode] = proc {|this|
+            this.send *args
+          }
         end
       end
     end
