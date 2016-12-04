@@ -1035,8 +1035,8 @@ module Optcarrot
 #	if flg
           kind, op, mode = args
           mode = ADDRESSING_MODES[mode][opcode >> 2 & 7]
-          send_args = [kind, op, mode]
-          send_args << (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op
+#         send_args = [kind, op, mode]
+#         send_args << (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op
 #         DISPATCH[opcode] = send_args
 	  eval "
           def #{kind}#{op}_#{mode}
