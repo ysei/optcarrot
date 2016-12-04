@@ -919,8 +919,8 @@ module Optcarrot
 ###	    step[0] &= 1
 #	  end
 #	  return @lin_sample = step[3]
-###	  return @lin_sample = step[step[0] + 2]
-###	  return @lin_sample = step[2 + step[0]]
+###	  return @lin_sample = step[step[0] + 2]	# [(step[0] & 1) + 2]
+###	  return @lin_sample = step[2 + step[0]]	# [2 + (step[0] & 1)]
 #	end
 #	step[0]
 ##	step[2]
