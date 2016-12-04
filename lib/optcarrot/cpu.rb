@@ -1005,9 +1005,9 @@ module Optcarrot
 ###
           @_pc += 1
 
-          DISPATCH.at(@opcode).call(self)
-#         send(*DISPATCH[@opcode])
-##	  self.send(*DISPATCH[@opcode])
+#         DISPATCH.at(@opcode).call(self)
+          send(*DISPATCH[@opcode])
+#	  self.send(*DISPATCH[@opcode])
 	  
 #	  clk = @clk # + 0 # .dup	# ?
           @ppu.sync(@clk) if @ppu_sync
@@ -1035,24 +1035,24 @@ module Optcarrot
 #	if flg
           kind, op, mode = args
           mode = ADDRESSING_MODES[mode][opcode >> 2 & 7]
-#         send_args = [kind, op, mode]
-#         send_args << (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op
-#         DISPATCH[opcode] = send_args
-	  eval "
-          def #{kind}#{op}_#{mode}
-            #{mode}(true, false)
-            #{op}
-          end
-               "
-          DISPATCH[opcode] = eval "proc {|this|
-            this.#{kind}#{op}_#{mode}
-          }
-            "
+          send_args = [kind, op, mode]
+          send_args << (mode.to_s.start_with?("zpg") ? :store_zpg : :store_mem) if kind != :r_op
+          DISPATCH[opcode] = send_args
+#	  eval "	# higokan ? mruby http://github.com/mruby/mruby/tree/master/mrbgems/mruby-eval/
+#         def #{kind}#{op}_#{mode}
+#           #{mode}(true, false)
+#           #{op}
+#         end
+#              "
+#         DISPATCH[opcode] = eval "proc {|this|	# higokan ? mruby http://github.com/mruby/mruby/tree/master/mrbgems/mruby-eval/
+#           this.#{kind}#{op}_#{mode}
+#         }
+#           "
         else
-#         DISPATCH[opcode] = [*args]
-	  DISPATCH[opcode] = proc {|this|
-            this.send *args
-          }
+          DISPATCH[opcode] = [*args]
+#	  DISPATCH[opcode] = proc {|this|
+#           this.send *args
+#         }
         end
       end
 #     kind = nil
