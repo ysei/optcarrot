@@ -876,12 +876,12 @@ module Optcarrot
 #	if (step = [@lin_sample]) != [(step<< @cur_sample)[1]] # .dup	# p 
 #	if (step = [@lin_sample, @cur_sample])[0] != step[1] # .dup
 #	  if (
-#	    step = [@@channel_output_mul__8, step[1] - step[0]
+#	    step = [step[1] - step[0], @@channel_output_mul__8
 #		] + step
 #		].push(step[0], step[1])
 #		].push(*step)
-#	    step.unshift(@@channel_output_mul__8, step[1] - step[0])
-#	  )[0] <
+#	    step.unshift(step[1] - step[0], @@channel_output_mul__8)
+#	  )[1] <
 #		(step[0] ^ (step[0] = (step[0] <=> 0) >> 1)) - step[0]
 #		step[0] - ((step[0] & step[0] = (step[0] <=> 0) >> 1) << 1)
 #		step[0] - (step[0] << 1 & step[0] = (step[0] <=> 0) >> 1)
